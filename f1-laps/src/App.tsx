@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Box from "@mui/material/Box";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Compare from "./pages/Compare/index";
+import Navbar from "./pages/Navbar";
+import Saved from "./pages/Saved";
+import Recording from "./pages/Recording";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Box
+        sx={{
+          bgcolor: "background.default",
+          height: "100vh",
+          width: "100vw",
+        }}
+      >
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Recording />}></Route>
+          <Route path="/saved" element={<Saved />}></Route>
+          <Route path="/compare" element={<Compare />}></Route>
+        </Routes>
+      </Box>
+    </Router>
   );
 }
 
