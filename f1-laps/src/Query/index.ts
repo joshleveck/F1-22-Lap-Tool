@@ -2,6 +2,8 @@ import { GridRowId } from "@mui/x-data-grid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+import { row } from "../Types/types";
+
 const urlPrefix = "http://127.0.0.1:5000";
 
 type recState = "start" | "stop";
@@ -55,10 +57,33 @@ export const useRecordingQuery = () => {
   const deleteRecordingMutation = useMutation(
     (selected: GridRowId[]) => post("/recording/delete", { selected }),
     {
+      // When mutate is called:
+      onMutate: async (selected: GridRowId[]) => {
+        await queryClient.cancelQueries(["recording laps"]);
+
+        const prevLaps = queryClient.getQueryData(["recording laps"]);
+
+        queryClient.setQueryData(
+          ["recording laps"],
+          (oldLaps: row[] | undefined) =>
+            oldLaps
+              ? oldLaps.filter((lap: row) => !selected.includes(lap.id))
+              : []
+        );
+
+        return { prevLaps };
+      },
+
       onSettled: () => {
-        queryClient.invalidateQueries(["recording"]);
+        queryClient.invalidateQueries(["recording laps"]);
       },
     }
+  );
+
+  const saveRecordingMutation = useMutation(
+    ({ selected, name }: { selected: GridRowId; name: string }) =>
+      post("/recording/save", { selected, name }),
+    {}
   );
 
   return {
@@ -66,5 +91,6 @@ export const useRecordingQuery = () => {
     setRecordingMutation,
     useRecordingBuffer,
     deleteRecordingMutation,
+    saveRecordingMutation,
   };
 };

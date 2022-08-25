@@ -5,37 +5,8 @@ import LapGrid from "../../Components/LapGrid/LapGrid";
 import { useRecording } from "./hooks";
 
 function Recording() {
-  const {
-    isRecording,
-    toggleRecording,
-    rows,
-    isStateLoading,
-    isLapsLoading,
-    onSelect,
-    onDelete,
-    noneSelected,
-  } = useRecording();
-
-  const GridHeader = () => (
-    <Box
-      component="span"
-      mb={1}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <div>
-        <Button variant="outlined">Save Selected</Button>
-      </div>
-      <Button
-        variant="outlined"
-        onClick={onDelete}
-        disabled={isLapsLoading || noneSelected}
-      >
-        Delete Selected
-      </Button>
-    </Box>
-  );
+  const { isRecording, toggleRecording, rows, isStateLoading, isLapsLoading } =
+    useRecording();
 
   return (
     <Container sx={{ p: 3, color: "#fff" }}>
@@ -59,12 +30,7 @@ function Recording() {
           {isRecording ? "Recording" : "Start Recording"}
         </Button>
       </Box>
-      <LapGrid
-        rows={rows}
-        Header={GridHeader}
-        onSelect={onSelect}
-        loading={isLapsLoading}
-      />
+      <LapGrid rows={rows} loading={isLapsLoading} />
     </Container>
   );
 }

@@ -11,7 +11,6 @@ export const useCompareForm = () => {
   const handleInputChange = (id: number) => {
     return (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      console.log(e.target);
       setFormValues(
         formValues.map((lapValue: lapSelectValues) => {
           if (lapValue.id === id) {

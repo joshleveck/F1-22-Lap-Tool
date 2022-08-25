@@ -4,6 +4,8 @@ export interface row {
   startDistance: number;
   finalDistance: number;
   delta: number;
+  but1?: JSX.Element;
+  but2?: JSX.Element;
 }
 
 export interface selectOption {

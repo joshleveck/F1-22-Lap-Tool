@@ -1,5 +1,5 @@
 import pandas as pd
-from constants import STATE_FILE, STOP, BUFFER_FILE, CSV_HEADER
+from constants import STATE_FILE, STOP, BUFFER_FILE, CSV_HEADER, SAVE_PATH
 
 
 def init_recording():
@@ -63,7 +63,6 @@ def get_recorded():
 
 
 def delete_recorded(deleteLapIds):
-    print(deleteLapIds)
     columns = CSV_HEADER
     csvBuffer = pd.read_csv(BUFFER_FILE, usecols=columns)
 
@@ -76,6 +75,24 @@ def delete_recorded(deleteLapIds):
         del laps[i]
 
     pd.concat(laps).to_csv(BUFFER_FILE, index=False)
+
+    return deleteLapIds
+
+
+def save_recorded(saveLapId, saveLapName):
+    columns = CSV_HEADER
+    csvBuffer = pd.read_csv(BUFFER_FILE, usecols=columns)
+
+    if csvBuffer.empty:
+        return -1
+
+    laps = get_laps(csvBuffer)
+
+    lap = laps[saveLapId]
+
+    lap.to_csv(SAVE_PATH + saveLapName + ".csv", index=False)
+
+    return saveLapId
 
 
 def get_state():

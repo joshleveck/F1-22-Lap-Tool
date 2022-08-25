@@ -5,6 +5,7 @@ from recording import (
     get_recorded,
     get_state,
     delete_recorded,
+    save_recorded,
 )
 from constants import STOP, START
 from flask_cors import CORS
@@ -39,9 +40,21 @@ def post_recording():
 def delete_recording():
     if request.is_json:
         json = request.get_json()
-        print(json)
         if json["selected"]:
             delete_recorded(json["selected"])
+            return json, 200
+        else:
+            return {"error": "Incorrect format"}, 400
+
+    return {"error": "Request must be JSON"}, 415
+
+
+@app.post("/recording/save")
+def save_recording():
+    if request.is_json:
+        json = request.get_json()
+        if json["selected"] and json["name"]:
+            save_recorded(json["selected"], json["name"])
             return json, 200
         else:
             return {"error": "Incorrect format"}, 400

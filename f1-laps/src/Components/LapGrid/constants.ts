@@ -1,4 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
+import { SaveButton, DeleteButton } from "../Buttons";
 
 export const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -24,5 +25,17 @@ export const columns: GridColDef[] = [
     headerName: "Delta Time",
     type: "number",
     width: 150,
+  },
+  {
+    field: "but1",
+    headerName: "",
+    width: 150,
+    renderCell: DeleteButton,
+  },
+  {
+    field: "but2",
+    headerName: "",
+    width: 150,
+    renderCell: SaveButton,
   },
 ];

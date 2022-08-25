@@ -48,6 +48,7 @@ TRACK_IDS = {
 
 STATE_FILE = "../storage/recording.txt"
 BUFFER_FILE = "../storage/buffer.csv"
+SAVE_PATH = "../storage/saved/"
 
 START = "start"
 STOP = "stop"

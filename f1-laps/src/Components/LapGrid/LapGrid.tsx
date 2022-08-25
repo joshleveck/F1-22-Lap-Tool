@@ -17,21 +17,20 @@ function LapGrid({
   loading,
 }: {
   rows: row[] | [];
-  Header: () => JSX.Element;
-  onSelect: (
+  Header?: () => JSX.Element;
+  onSelect?: (
     selectionModel: GridSelectionModel,
     details: GridCallbackDetails<any>
   ) => void;
   loading?: boolean;
 }) {
   return (
-    <Container maxWidth="md" sx={{ height: 400 }}>
-      <Header />
+    <Container maxWidth="lg" sx={{ height: 400 }}>
+      {Header ? <Header /> : null}
       <DataGrid
         rows={rows}
         columns={columns}
-        checkboxSelection
-        onSelectionModelChange={onSelect}
+        onSelectionModelChange={onSelect ? onSelect : () => {}}
         loading={loading ? loading : false}
       />
     </Container>

@@ -1,5 +1,4 @@
-import { useCallback, useState } from "react";
-import { GridRowId, GridSelectionModel, useGridApiRef } from "@mui/x-data-grid";
+import { useCallback } from "react";
 import { useRecordingQuery } from "../../Query/index";
 
 import { row } from "../../Types/types";
@@ -11,12 +10,8 @@ const millisToMinutesAndSeconds = (millis: number) => {
 };
 
 export const useRecording = () => {
-  const {
-    useRecordingState,
-    setRecordingMutation,
-    useRecordingBuffer,
-    deleteRecordingMutation,
-  } = useRecordingQuery();
+  const { useRecordingState, setRecordingMutation, useRecordingBuffer } =
+    useRecordingQuery();
 
   const { data: lapData, isLoading: isLapsLoading } = useRecordingBuffer();
 
@@ -40,25 +35,11 @@ export const useRecording = () => {
       }))
     : [];
 
-  const [selected, setSelected] = useState<GridRowId[]>([]);
-  const apiRef = useGridApiRef();
-  const onSelect = (selectionModel: GridSelectionModel) => {
-    setSelected(selectionModel);
-  };
-  const onDelete = useCallback(() => {
-    deleteRecordingMutation.mutate(selected);
-    apiRef.current.selectRows(selected, true, true);
-    setSelected([]);
-  }, [deleteRecordingMutation, selected, setSelected, apiRef]);
-
   return {
     isRecording: recState !== "stop",
     toggleRecording,
     rows,
     isStateLoading,
     isLapsLoading,
-    onSelect,
-    onDelete,
-    noneSelected: selected.length === 0,
   };
 };
