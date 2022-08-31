@@ -2,7 +2,7 @@ import React, { ChangeEventHandler } from "react";
 import { MenuItem, TextField, Grid } from "@mui/material";
 
 import { driverOptions, circuitOptions } from "./constants";
-import { lapSelectValues } from "../../Types/types";
+import { lapSelectValues } from "../../../Types/types";
 
 function DriverSelection({
   values,

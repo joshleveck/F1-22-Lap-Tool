@@ -7,7 +7,6 @@ function Navbar() {
   const navigate = useNavigate();
   const handleClick = (path: string) => {
     navigate(path);
-    console.log("hi");
   };
   return (
     <Box sx={{ flexGrow: 1 }}>

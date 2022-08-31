@@ -12,8 +12,6 @@ function App() {
       <Box
         sx={{
           bgcolor: "background.default",
-          height: "100vh",
-          width: "100vw",
         }}
       >
         <Navbar />

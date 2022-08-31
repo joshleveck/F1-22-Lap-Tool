@@ -4,8 +4,8 @@
 # dependencies
 /node_modules
 /.pnp
-__pycache__/
-/cache
+*/__pycache__
+*/cache
 *.png
 *.csv
 *.txt

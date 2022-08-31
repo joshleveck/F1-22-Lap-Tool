@@ -1,8 +1,14 @@
+import { useContext, useCallback, useState } from "react";
 import { GridRowId } from "@mui/x-data-grid";
-import { useCallback, useState } from "react";
-import { useRecordingQuery } from "../Query";
 
-export const useSaveButton = () => {
+import { useRecordingQuery, useSavedQuery } from "../Query";
+import {
+  FormContext,
+  GridInputChange,
+} from "../pages/Compare/CompareForm/hooks";
+import { savedRow } from "../Types/types";
+
+export const useRecordingSaveButton = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [lapName, setLapName] = useState<string>("");
   const { saveRecordingMutation } = useRecordingQuery();
@@ -31,7 +37,7 @@ export const useSaveButton = () => {
   };
 };
 
-export const useDeleteButton = () => {
+export const useRecordingDeleteButton = () => {
   const { deleteRecordingMutation } = useRecordingQuery();
   return {
     onClick: useCallback(
@@ -39,6 +45,30 @@ export const useDeleteButton = () => {
         deleteRecordingMutation.mutate([id]);
       },
       [deleteRecordingMutation]
+    ),
+  };
+};
+
+export const useSaveDeleteButton = () => {
+  const { deleteSavedLap } = useSavedQuery();
+  return {
+    onClick: useCallback(
+      (id: GridRowId) => {
+        deleteSavedLap.mutate([id]);
+      },
+      [deleteSavedLap]
+    ),
+  };
+};
+
+export const useSelectButton = () => {
+  const inputChange: GridInputChange = useContext(FormContext);
+  return {
+    onClick: useCallback(
+      (row: savedRow) => {
+        inputChange({ name: "personalLap", value: row });
+      },
+      [inputChange]
     ),
   };
 };

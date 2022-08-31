@@ -4,17 +4,20 @@ import { MenuItem, TextField, Grid, Paper, Typography } from "@mui/material";
 import DriverSelection from "./DriverSelection";
 import { lapOptions } from "./constants";
 
-import { lapSelectValues } from "../../Types/types";
+import { FormContext, GridInputChange } from "./hooks";
+import { lapSelectValues } from "../../../Types/types";
 import PersonalSelection from "./PersonalSelection";
 
 function CompareSelection({
   values,
   id,
   handleInput,
+  handleEventInput,
 }: {
   values: lapSelectValues;
   id: number;
-  handleInput: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  handleEventInput: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  handleInput: GridInputChange;
 }) {
   return (
     <Paper sx={{ p: 3, mb: 2 }} elevation={4}>
@@ -30,7 +33,7 @@ function CompareSelection({
             label="Select Lap Type"
             helperText="Please select the lap type"
             value={values.lapType}
-            onChange={handleInput}
+            onChange={handleEventInput}
           >
             {lapOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -39,10 +42,10 @@ function CompareSelection({
             ))}
           </TextField>
         </Grid>
-        {values.lapType === "driver" ? (
-          <DriverSelection values={values} handleInput={handleInput} />
+        {values.lapType === "driverLap" ? (
+          <DriverSelection values={values} handleInput={handleEventInput} />
         ) : null}
-        {values.lapType === "personal" ? (
+        {values.lapType === "personalLap" ? (
           <PersonalSelection values={values} handleInput={handleInput} />
         ) : null}
       </Grid>

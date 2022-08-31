@@ -1,56 +1,50 @@
-import { useState, ChangeEvent, useMemo } from "react";
-import * as _ from "lodash";
+import { useCallback, useState } from "react";
 
-import { lapSelectValues } from "../../Types/types";
 import { defaultValues } from "./constants";
+import { useCompareQuery } from "../../Query";
+import { lapSelectValues } from "../../Types/types";
 
-export const useCompareForm = () => {
+export const useCompare = () => {
   const [formValues, setFormValues] =
     useState<lapSelectValues[]>(defaultValues);
 
-  const handleInputChange = (id: number) => {
-    return (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      setFormValues(
-        formValues.map((lapValue: lapSelectValues) => {
-          if (lapValue.id === id) {
-            return { ...lapValue, [name]: value };
-          } else {
-            return lapValue;
-          }
-        })
-      );
-    };
+  const [isCompareForm, setCompareForm] = useState<Boolean>(true);
+  const usePrevious = () => {
+    setCompareForm(false);
   };
 
-  const submitEnabled = useMemo(
-    () =>
-      _.every(formValues, (lap: lapSelectValues) => {
-        if (lap.lapType === "driver") {
-          return lap.circuit !== "" && lap.driver !== "";
-        } else if (lap.lapType === "personal") {
-          return lap.personalLap !== "";
+  const compareOthers = () => {
+    setCompareForm(true);
+    setFormValues(defaultValues);
+  };
+
+  const { setPersonalLap, setDriverLap } = useCompareQuery();
+
+  const onSubmit = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      setCompareForm(false);
+      formValues.map((lap) => {
+        if (lap.lapType === "personalLap") {
+          setPersonalLap.mutate(lap.personalLap.id);
+        } else {
+          setDriverLap.mutate({
+            driver: lap.driver,
+            circuit: lap.circuit,
+          });
         }
-        return false;
-      }),
-    [formValues]
+        return {};
+      });
+    },
+    [setCompareForm, formValues, setPersonalLap, setDriverLap]
   );
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(formValues);
+  return {
+    formValues,
+    setFormValues,
+    onSubmit,
+    isCompareForm,
+    usePrevious,
+    compareOthers,
   };
-
-  return { formValues, onSubmit, handleInputChange, submitEnabled };
-};
-
-export const usePersonalSelection = () => {
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  return { isOpen, handleOpen, handleClose };
 };

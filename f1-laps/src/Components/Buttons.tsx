@@ -1,11 +1,18 @@
 import { Button, Modal, Box, Typography, TextField } from "@mui/material";
 import { GridRenderCellParams } from "@mui/x-data-grid";
 
-import { useDeleteButton, useSaveButton } from "./hooks";
+import {
+  useRecordingDeleteButton,
+  useRecordingSaveButton,
+  useSaveDeleteButton,
+  useSelectButton,
+} from "./hooks";
 
-export const SaveButton = (params: GridRenderCellParams<any, any, any>) => {
+export const RecordingSaveButton = (
+  params: GridRenderCellParams<any, any, any>
+) => {
   const { onClick, open, handleClose, lapName, handleInput, onSubmit } =
-    useSaveButton();
+    useRecordingSaveButton();
   return (
     <>
       <Button
@@ -63,8 +70,11 @@ export const SaveButton = (params: GridRenderCellParams<any, any, any>) => {
     </>
   );
 };
-export const DeleteButton = (params: GridRenderCellParams<any, any, any>) => {
-  const { onClick } = useDeleteButton();
+
+export const RecordingDeleteButton = (
+  params: GridRenderCellParams<any, any, any>
+) => {
+  const { onClick } = useRecordingDeleteButton();
   return (
     <Button
       variant="outlined"
@@ -72,6 +82,34 @@ export const DeleteButton = (params: GridRenderCellParams<any, any, any>) => {
       onClick={() => onClick(params.id)}
     >
       Delete
+    </Button>
+  );
+};
+
+export const SaveDeleteButton = (
+  params: GridRenderCellParams<any, any, any>
+) => {
+  const { onClick } = useSaveDeleteButton();
+  return (
+    <Button
+      variant="outlined"
+      sx={{ ml: 3 }}
+      onClick={() => onClick(params.id)}
+    >
+      Delete
+    </Button>
+  );
+};
+
+export const SelectButton = (params: GridRenderCellParams<any, any, any>) => {
+  const { onClick } = useSelectButton();
+  return (
+    <Button
+      variant="outlined"
+      sx={{ ml: 3 }}
+      onClick={() => onClick(params.row)}
+    >
+      Select
     </Button>
   );
 };

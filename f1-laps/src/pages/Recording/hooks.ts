@@ -1,13 +1,9 @@
 import { useCallback } from "react";
 import { useRecordingQuery } from "../../Query/index";
 
-import { row } from "../../Types/types";
+import { millisToMinutesAndSeconds } from "../../helper";
 
-const millisToMinutesAndSeconds = (millis: number) => {
-  const minutes = Math.floor(millis / 60000);
-  const seconds = (millis % 60000) / 1000;
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-};
+import { recordedRow } from "../../Types/types";
 
 export const useRecording = () => {
   const { useRecordingState, setRecordingMutation, useRecordingBuffer } =
@@ -25,7 +21,7 @@ export const useRecording = () => {
     }
   }, [recState, setRecordingMutation]);
 
-  const rows: row[] | [] = lapData
+  const rows: recordedRow[] | [] = lapData
     ? lapData.map((lap: any) => ({
         id: lap.id,
         delta: millisToMinutesAndSeconds(lap.delta),

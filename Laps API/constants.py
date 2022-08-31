@@ -10,6 +10,7 @@ CSV_HEADER = [
     "nGear",
     "RPM",
 ]
+COMPARE_HEADER = ["Personal", "Driver", "Circuit"]
 NUM_BUFFER_LINES = 10
 TRACK_IDS = {
     -1: "Undefined",
@@ -49,6 +50,7 @@ TRACK_IDS = {
 STATE_FILE = "../storage/recording.txt"
 BUFFER_FILE = "../storage/buffer.csv"
 SAVE_PATH = "../storage/saved/"
+COMPARE_FILE = "../storage/compare.csv"
 
 START = "start"
 STOP = "stop"

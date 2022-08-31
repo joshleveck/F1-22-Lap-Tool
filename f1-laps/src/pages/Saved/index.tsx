@@ -1,26 +1,12 @@
 import React from "react";
-import { Box, Container, Typography, Button } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 import LapGrid from "../../Components/LapGrid/LapGrid";
-import { useRecording } from "./hooks";
-
-function GridHeader() {
-  return (
-    <Box
-      component="span"
-      mb={1}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Button variant="outlined">Compare Selected</Button>
-      <Button variant="outlined">Delete Selected</Button>
-    </Box>
-  );
-}
+import { useSaved } from "./hooks";
+import { saveColumns } from "../../Components/LapGrid/constants";
 
 function Saved() {
-  const { rows } = useRecording();
+  const { rows, isLapsLoading } = useSaved();
   return (
     <Container sx={{ p: 3, color: "#fff" }}>
       <Box
@@ -34,11 +20,7 @@ function Saved() {
           <strong>Saved Laps</strong>
         </Typography>
       </Box>
-      {/* <LapGrid
-        rows={rows}
-        Header={GridHeader}
-        onSelect={() => console.log("damn thats crazy")}
-      /> */}
+      <LapGrid rows={rows} columns={saveColumns} loading={isLapsLoading} />
     </Container>
   );
 }

@@ -1,28 +1,22 @@
-import { useState } from "react";
+import { useSavedQuery } from "../../Query";
+import { millisToMinutesAndSeconds } from "../../helper";
 
-import { row } from "../../Types/types";
+import { savedRow } from "../../Types/types";
 
-export const useRecording = () => {
-  const [isRecording, setRecording] = useState<Boolean>(false);
-  const toggleRecording = () =>
-    isRecording ? setRecording(false) : setRecording(true);
+export const useSaved = () => {
+  const { useSavedLaps } = useSavedQuery();
+  const { data: lapData, isLoading: isLapsLoading } = useSavedLaps();
 
-  const rows: row[] = [
-    {
-      id: 0,
-      track: "Australia",
-      startDistance: 0,
-      finalDistance: 5000,
-      delta: 1600,
-    },
-    {
-      id: 1,
-      track: "Australia",
-      startDistance: 0,
-      finalDistance: 5000,
-      delta: 1600,
-    },
-  ];
+  const rows: savedRow[] | [] = lapData
+    ? lapData.map((lap: any) => ({
+        id: lap.id,
+        name: lap.name,
+        delta: millisToMinutesAndSeconds(lap.delta),
+        startDistance: lap.start_distance,
+        finalDistance: lap.final_distance,
+        track: lap.track,
+      }))
+    : [];
 
-  return { isRecording, toggleRecording, rows };
+  return { rows, isLapsLoading };
 };

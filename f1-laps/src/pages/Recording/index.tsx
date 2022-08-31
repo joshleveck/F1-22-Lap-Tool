@@ -3,6 +3,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 
 import LapGrid from "../../Components/LapGrid/LapGrid";
 import { useRecording } from "./hooks";
+import { recordingColumns } from "../../Components/LapGrid/constants";
 
 function Recording() {
   const { isRecording, toggleRecording, rows, isStateLoading, isLapsLoading } =
@@ -30,7 +31,7 @@ function Recording() {
           {isRecording ? "Recording" : "Start Recording"}
         </Button>
       </Box>
-      <LapGrid rows={rows} loading={isLapsLoading} />
+      <LapGrid rows={rows} loading={isLapsLoading} columns={recordingColumns} />
     </Container>
   );
 }
